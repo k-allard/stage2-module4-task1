@@ -16,8 +16,9 @@ public class H2ConnectionFactory implements ConnectionFactory {
     @Override
     public Connection createConnection() {
         Properties props = new Properties();
-        try(InputStream in = Files.newInputStream(Paths.get("h2database.properties"))){
-            props.load(in);
+        try (InputStream input = H2ConnectionFactory.class.getClassLoader()
+                .getResourceAsStream("h2database.properties")) {
+            props.load(input);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,7 +35,6 @@ public class H2ConnectionFactory implements ConnectionFactory {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
 
